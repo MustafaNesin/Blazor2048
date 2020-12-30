@@ -1,0 +1,9 @@
+﻿.game {
+    color: hsl(30, 20%, 45%);
+}
+
+@media (min-width: 576px) {
+    .game {
+        font-size: 1.4rem;
+    }
+}

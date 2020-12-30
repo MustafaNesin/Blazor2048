@@ -1,0 +1,45 @@
+﻿<div class="row my-3 justify-content-center">
+    <div class="col-auto">
+        <span class="font-weight-bold">Score:</span>
+        <span class="mx-1">@(Game?.Score ?? 0)</span>
+        @if (Game is not null)
+        {
+            <span class="font-weight-bolder">
+                @if (Game.Won)
+                {
+                    @:(Won)
+                }
+                else if (Game.Over)
+                {
+                    @:(Over)
+                }
+            </span>
+        }
+    </div>
+</div>
+<div class="row">
+    <GridComponent Grid="Game?.Grid"/>
+</div>
+
+<div class="row my-3">
+    <ControllerComponent OnMoveUpCallback="@MoveUp"
+                         OnMoveRightCallback="@MoveRight"
+                         OnMoveDownCallback="@MoveDown"
+                         OnMoveLeftCallback="@MoveLeft"/>
+</div>
+
+@code {
+#nullable enable
+
+    [Parameter]
+    public bool IsTouchEnabled { get; set; }
+
+    [Parameter]
+    public Game? Game { get; set; }
+
+    public void MoveUp() => Game?.Move(Direction.Up);
+    public void MoveRight() => Game?.Move(Direction.Right);
+    public void MoveDown() => Game?.Move(Direction.Down);
+    public void MoveLeft() => Game?.Move(Direction.Left);
+
+}

@@ -1,0 +1,104 @@
+﻿.cell {
+    background-color: hsl(30, 20%, 80%);
+    height: 50px;
+    width: 50px;
+    text-align: center;
+    border-radius: 5px;
+    padding: 0;
+    margin: 5px 0 0 5px;
+}
+
+.tile {
+    color: hsl(30, 20%, 98%);
+    line-height: 50px;
+    border-radius: 5px;
+    font-size: 1.6em;
+    font-weight: bold;
+}
+
+.tile.tile-2 {
+    background-color: hsl(40, 80%, 95%);
+    color: hsl(30, 20%, 45%);
+}
+
+.tile.tile-4 {
+    background-color: hsl(35, 80%, 90%);
+    color: hsl(30, 20%, 45%);
+}
+
+.tile.tile-8 {
+    background-color: hsl(30, 80%, 75%);
+}
+
+.tile.tile-16 {
+    background-color: hsl(25, 80%, 70%);
+}
+
+.tile.tile-32 {
+    background-color: hsl(20, 80%, 65%);
+}
+
+.tile.tile-64 {
+    background-color: hsl(15, 80%, 60%);
+    font-size: 1.3em;
+}
+
+.tile.tile-128 {
+    background-color: hsl(56, 80%, 55%);
+    font-size: 1.3em;
+}
+
+.tile.tile-256 {
+    background-color: hsl(53, 80%, 55%);
+    font-size: 1.3em;
+}
+
+.tile.tile-512 {
+    background-color: hsl(50, 80%, 55%);
+    font-size: 1.3em;
+}
+
+.tile.tile-1024 {
+    background-color: hsl(47, 80%, 55%);
+    font-size: 1em;
+}
+
+.tile.tile-2048 {
+    background-color: hsl(44, 85%, 55%);
+    font-size: 1em;
+}
+
+.tile.tile-super {
+    background-color: hsl(280, 60%, 60%);
+    font-size: 0.7em;
+}
+
+@media (min-width: 576px) {
+    .cell {
+        height: 100px;
+        width: 100px;
+        margin: 10px 0 0 10px;
+        font-size: 1rem;
+    }
+
+    .tile {
+        line-height: 100px;
+        font-size: 2.6em;
+    }
+
+    .tile.tile-64,
+    .tile.tile-128,
+    .tile.tile-256,
+    .tile.tile-512 {
+        font-size: 2.3em;
+    }
+
+    .tile.tile-1024,
+    .tile.tile-2048 {
+        font-size: 2em;
+    }
+
+    .tile.tile-super {
+        font-size: 1.7em;
+    }
+}

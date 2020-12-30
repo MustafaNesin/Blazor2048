@@ -1,0 +1,32 @@
+﻿<div class="col-auto cell">
+    @if (TileValue is not null)
+    {
+        <div class="@TileClassName">
+            @TileValue
+        </div>
+    }
+</div>
+
+@code {
+
+    [Parameter]
+    public int? TileValue { get; set; }
+
+    private string TileClassName => TileValue switch
+    {
+        null => "",
+        2 => "tile tile-2",
+        4 => "tile tile-4",
+        8 => "tile tile-8",
+        16 => "tile tile-16",
+        32 => "tile tile-32",
+        64 => "tile tile-64",
+        128 => "tile tile-128",
+        256 => "tile tile-256",
+        512 => "tile tile-512",
+        1024 => "tile tile-1024",
+        2048 => "tile tile-2048",
+        _ => "tile tile-super"
+        };
+
+}

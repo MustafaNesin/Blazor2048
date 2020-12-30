@@ -1,0 +1,16 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Blazor2048", "Blazor2048.csproj", "{30E24965-86D7-4DD1-9FF1-602387192E9D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{30E24965-86D7-4DD1-9FF1-602387192E9D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{30E24965-86D7-4DD1-9FF1-602387192E9D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{30E24965-86D7-4DD1-9FF1-602387192E9D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{30E24965-86D7-4DD1-9FF1-602387192E9D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

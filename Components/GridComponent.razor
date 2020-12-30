@@ -1,0 +1,22 @@
+﻿<div class="col grid">
+    @if (Grid is not null)
+    {
+        for (var y = 0; y < Grid.Size; y++)
+        {
+            <div class="row flex-nowrap">
+                @for (var x = 0; x < Grid.Size; x++)
+                {
+                    <CellComponent TileValue="Grid[x, y]"/>
+                }
+            </div>
+        }
+    }
+</div>
+
+@code {
+
+#nullable enable
+    [Parameter]
+    public Grid? Grid { get; set; }
+
+}

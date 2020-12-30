@@ -1,0 +1,44 @@
+﻿<div class="col">
+    <div class="row justify-content-center">
+        <div class="col-auto">
+            <button class="btn btn-game" @onclick="OnMoveUpCallback">
+                <i class="oi oi-arrow-thick-top"></i>
+            </button>
+        </div>
+    </div>
+    <div class="row justify-content-center my-2">
+        <div class="col-auto mr-3">
+            <button class="btn btn-game" @onclick="OnMoveLeftCallback">
+                <i class="oi oi-arrow-thick-left"></i>
+            </button>
+        </div>
+        <div class="col-auto ml-3">
+            <button class="btn btn-game" @onclick="OnMoveRightCallback">
+                <i class="oi oi-arrow-thick-right"></i>
+            </button>
+        </div>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col-auto">
+            <button class="btn btn-game" @onclick="OnMoveDownCallback">
+                <i class="oi oi-arrow-thick-bottom"></i>
+            </button>
+        </div>
+    </div>
+</div>
+
+@code {
+
+    [Parameter]
+    public EventCallback OnMoveUpCallback { get; set; }
+
+    [Parameter]
+    public EventCallback OnMoveRightCallback { get; set; }
+
+    [Parameter]
+    public EventCallback OnMoveDownCallback { get; set; }
+
+    [Parameter]
+    public EventCallback OnMoveLeftCallback { get; set; }
+
+}

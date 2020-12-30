@@ -1,0 +1,56 @@
+﻿@page "/game"
+@inject GameService GameService
+
+<div class="container-fluid game my-3" @onkeydown="KeyDown" tabindex="-1" @ref="_container">
+    <div class="row justify-content-center">
+        <div class="col-auto">
+            <div class="row my-3 justify-content-center">
+                <div class="col-auto">
+                    <button class="btn btn-game" @onclick="GameService.NewGame">New Game</button>
+                </div>
+            </div>
+            <GameComponent Game="@GameService.Game" @ref="_gameComponent"/>
+        </div>
+    </div>
+</div>
+
+@code {
+#nullable enable
+    private ElementReference _container;
+    private GameComponent? _gameComponent;
+
+    protected override void OnInitialized()
+    {
+        if (!GameService.IsGameStarted)
+            GameService.NewGame();
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+            await _container.FocusAsync();
+    }
+
+    private void KeyDown(KeyboardEventArgs e)
+    {
+        if (!GameService.IsGameStarted)
+            return;
+
+        switch (e.Key)
+        {
+            case "ArrowUp":
+                _gameComponent!.MoveUp();
+                break;
+            case "ArrowRight":
+                _gameComponent!.MoveRight();
+                break;
+            case "ArrowDown":
+                _gameComponent!.MoveDown();
+                break;
+            case "ArrowLeft":
+                _gameComponent!.MoveLeft();
+                break;
+        }
+    }
+
+}

@@ -1,0 +1,22 @@
+﻿.grid {
+    background-color: hsl(30, 20%, 70%);
+    border-radius: 5px;
+}
+
+.grid>.row {
+    padding-right: 5px;
+}
+
+.grid:last-child {
+    padding-bottom: 5px;
+}
+
+@media (min-width: 576px) {
+    .grid>.row {
+        padding-right: 10px;
+    }
+
+    .grid:last-child {
+        padding-bottom: 10px;
+    }
+}

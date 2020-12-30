@@ -1,0 +1,15 @@
+{
+  "name": "Blazor2048",
+  "short_name": "Blazor2048",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#EEBA2B",
+  "icons": [
+    {
+      "src": "icon-512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ]
+}
