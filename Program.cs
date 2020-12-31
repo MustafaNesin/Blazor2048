@@ -1,6 +1,7 @@
 using System.Net.Http;
 using System.Threading.Tasks;
 using Blazor2048.Services;
+using Blazored.LocalStorage;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -18,6 +19,7 @@ namespace Blazor2048
                 {
                     BaseAddress = new(builder.HostEnvironment.BaseAddress)
                 })
+                .AddBlazoredLocalStorage()
                 .AddScoped<IGameService, GameService>();
 
             await builder.Build().RunAsync();
