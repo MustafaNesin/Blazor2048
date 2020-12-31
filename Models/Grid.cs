@@ -77,5 +77,13 @@ namespace Blazor2048.Models
                 if (enumerator.Current is Cell { TileValue: null } cell)
                     yield return cell;
         }
+
+        public IEnumerable<int?> EnumerateTileValues()
+        {
+            var enumerator = _cells.GetEnumerator();
+            while (enumerator.MoveNext())
+                if (enumerator.Current is Cell cell)
+                    yield return cell.TileValue;
+        }
     }
 }

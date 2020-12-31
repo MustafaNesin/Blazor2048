@@ -5,15 +5,12 @@
 <div class="container-fluid game" @onkeydown="KeyDown" tabindex="-1" @ref="_container">
     <div class="row justify-content-center">
         <div class="col-auto">
-            <div class="row my-3 justify-content-center text-center">
-                <div class="col-12">
+            <div class="row my-3 justify-content-center">
+                <div class="col-auto">
                     <span class="display-3 font-weight-bold">2048</span>
                 </div>
-                <div class="col-12">
-                    <button class="btn btn-game" @onclick="GameService.NewGame">New Game</button>
-                </div>
             </div>
-            <GameComponent Game="@GameService.Game" @ref="_gameComponent"/>
+            <GameComponent Game="@GameService.Game" NewGameClick="@GameService.NewGameAsync"/>
             <div class="row my-3 justify-content-center text-center">
                 <div class="col-auto">
                     <span>
@@ -29,12 +26,12 @@
 @code {
 #nullable enable
     private ElementReference _container;
-    private GameComponent? _gameComponent;
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
         if (!GameService.IsGameStarted)
-            GameService.NewGame();
+            if (!await GameService.LoadGameAsync())
+                await GameService.NewGameAsync();
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -43,7 +40,7 @@
             await _container.FocusAsync();
     }
 
-    private void KeyDown(KeyboardEventArgs e)
+    private async Task KeyDown(KeyboardEventArgs e)
     {
         if (!GameService.IsGameStarted)
             return;
@@ -51,16 +48,16 @@
         switch (e.Key)
         {
             case "ArrowUp":
-                _gameComponent!.MoveUp();
+                await GameService.MoveAsync(Direction.Up);
                 break;
             case "ArrowRight":
-                _gameComponent!.MoveRight();
+                await GameService.MoveAsync(Direction.Right);
                 break;
             case "ArrowDown":
-                _gameComponent!.MoveDown();
+                await GameService.MoveAsync(Direction.Down);
                 break;
             case "ArrowLeft":
-                _gameComponent!.MoveLeft();
+                await GameService.MoveAsync(Direction.Left);
                 break;
         }
     }

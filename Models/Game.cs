@@ -19,6 +19,17 @@ namespace Blazor2048.Models
                 AddRandomTile();
         }
 
+        internal Game(int score, int?[] tileValues)
+        {
+            _random = new();
+            Grid = new();
+
+            Score = score;
+            for (var y = 0; y < Grid.Size; y++)
+            for (var x = 0; x < Grid.Size; x++)
+                Grid[x, y] = tileValues[y * Grid.Size + x];
+        }
+
         public bool Over { get; private set; }
         public bool Won { get; private set; }
         public int Score { get; private set; }

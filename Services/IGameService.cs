@@ -1,11 +1,15 @@
-﻿using Blazor2048.Models;
+﻿using System.Threading.Tasks;
+using Blazor2048.Models;
 
 namespace Blazor2048.Services
 {
     public interface IGameService
     {
-        Game? Game { get; }
+        int BestScore { get; }
         bool IsGameStarted { get; }
-        void NewGame();
+        Game? Game { get; }
+        Task<bool> LoadGameAsync();
+        Task MoveAsync(Direction direction);
+        Task NewGameAsync();
     }
 }
