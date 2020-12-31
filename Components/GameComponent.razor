@@ -5,13 +5,13 @@
         @if (Game is not null)
         {
             <span class="font-weight-bolder">
-                @if (Game.Won)
-                {
-                    @:(Won)
-                }
-                else if (Game.Over)
+                @if (Game.Over)
                 {
                     @:(Over)
+                }
+                else if (Game.Won)
+                {
+                    @:(Won)
                 }
             </span>
         }
