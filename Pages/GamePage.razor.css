@@ -1,5 +1,7 @@
 ﻿.game {
+    background-color: hsl(30, 20%, 98%);
     color: hsl(30, 20%, 45%);
+    height: 100%;
 }
 
 @media (min-width: 576px) {
