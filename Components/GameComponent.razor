@@ -28,8 +28,21 @@
             </div>
         </div>
     </div>
-    <div class="col-auto px-0">
-        <button class="btn btn-game" @onclick="NewGameClick">New Game</button>
+    <div class="col-auto px-0 text-right">
+        <div class="row">
+            <div class="col">
+                <button class="btn btn-game" @onclick="NewGameCallback">
+                    New Game
+                </button>
+            </div>
+        </div>
+        <div class="row mt-1">
+            <div class="col">
+                <button class="btn btn-game" @onclick="UndoAsync" disabled="@(GameService.Game?.CanUndo == false)">
+                    Undo <span class="oi oi-action-undo"></span>
+                </button>
+            </div>
+        </div>
     </div>
 </div>
 <div class="row justify-content-center">
@@ -39,26 +52,26 @@
     <div class="col">
         <div class="row justify-content-center">
             <div class="col-auto">
-                <button class="btn btn-game" @onclick="async () => await GameService.MoveAsync(Direction.Up)">
+                <button class="btn btn-game" @onclick="MoveUpAsync">
                     <i class="oi oi-arrow-thick-top"></i>
                 </button>
             </div>
         </div>
         <div class="row justify-content-center my-2">
             <div class="col-auto mr-3">
-                <button class="btn btn-game" @onclick="async () => await GameService.MoveAsync(Direction.Left)">
+                <button class="btn btn-game" @onclick="MoveLeftAsync">
                     <i class="oi oi-arrow-thick-left"></i>
                 </button>
             </div>
             <div class="col-auto ml-3">
-                <button class="btn btn-game" @onclick="async () => await GameService.MoveAsync(Direction.Right)">
+                <button class="btn btn-game" @onclick="MoveRightAsync">
                     <i class="oi oi-arrow-thick-right"></i>
                 </button>
             </div>
         </div>
         <div class="row justify-content-center">
             <div class="col-auto">
-                <button class="btn btn-game" @onclick="async () => await GameService.MoveAsync(Direction.Down)">
+                <button class="btn btn-game" @onclick="MoveDownAsync">
                     <i class="oi oi-arrow-thick-bottom"></i>
                 </button>
             </div>
@@ -70,9 +83,19 @@
 #nullable enable
 
     [Parameter]
-    public EventCallback NewGameClick { get; set; }
+    public EventCallback NewGameCallback { get; set; }
 
     [Parameter]
     public Game? Game { get; set; }
 
+    private async Task UndoAsync()
+    {
+        await GameService.UndoAsync();
+        await GameService.FocusAsync();
+    }
+
+    private async Task MoveUpAsync() => await GameService.MoveAsync(Direction.Up);
+    private async Task MoveRightAsync() => await GameService.MoveAsync(Direction.Right);
+    private async Task MoveDownAsync() => await GameService.MoveAsync(Direction.Down);
+    private async Task MoveLeftAsync() => await GameService.MoveAsync(Direction.Left);
 }

@@ -1,6 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Blazor2048.Models;
 using Blazored.LocalStorage;
+using Microsoft.AspNetCore.Components;
 
 namespace Blazor2048.Services
 {
@@ -14,6 +15,7 @@ namespace Blazor2048.Services
             var unused = InitializeAsync();
         }
 
+        public ElementReference? Container { get; set; }
         public Game? Game { get; private set; }
         public int BestScore { get; private set; }
 
@@ -43,6 +45,15 @@ namespace Blazor2048.Services
                 BestScore = Game.Score;
                 await _storageService.SetItemAsync("bestScore", BestScore);
             }
+        }
+
+        public async Task UndoAsync()
+        {
+            if (!IsGameStarted)
+                return;
+
+            Game!.Undo();
+            await SaveGameAsync();
         }
 
         public async Task<bool> LoadGameAsync()
@@ -80,6 +91,14 @@ namespace Blazor2048.Services
             return true;
         }
 
+        public async Task FocusAsync()
+        {
+            if (!Container.HasValue)
+                return;
+
+            await Container.Value.FocusAsync();
+        }
+
         private async Task InitializeAsync()
         {
             var item = await _storageService.GetItemAsStringAsync("bestScore");
@@ -96,7 +115,7 @@ namespace Blazor2048.Services
             if (!IsGameStarted)
                 return;
 
-            var str = string.Join(',', Game!.Grid.EnumerateTileValues()) + "," + Game.Score;
+            var str = string.Join(',', Game!.Grid.EnumerateCells()) + "," + Game.Score;
             await _storageService.SetItemAsync("game", str);
         }
 

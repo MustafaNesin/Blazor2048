@@ -2,9 +2,9 @@
 {
     public class Cell
     {
-        public Cell(int x, int y) => (X, Y) = (x, y);
-        public int X { get; }
-        public int Y { get; }
         public int? TileValue { get; set; }
+        public int? PreviousTileValue { get; set; }
+
+        public override string ToString() => TileValue.HasValue ? TileValue.Value.ToString() : string.Empty;
     }
 }

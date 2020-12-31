@@ -14,7 +14,7 @@ namespace Blazor2048.Models
 
             for (var y = 0; y < Size; y++)
             for (var x = 0; x < Size; x++)
-                _cells[y, x] = new(x, y);
+                _cells[y, x] = new();
         }
 
         public int? this[int x, int y]
@@ -50,7 +50,7 @@ namespace Blazor2048.Models
             return false;
         }
 
-        public bool HasEmptyCells() => EnumerateEmptyCells().Any();
+        public bool HasEmptyCells() => EnumerateCells().Any(cell => !cell.TileValue.HasValue);
 
         public bool CanMove() => CanMerge() || HasEmptyCells();
 
@@ -70,20 +70,12 @@ namespace Blazor2048.Models
             }
         }
 
-        public IEnumerable<Cell> EnumerateEmptyCells()
-        {
-            var enumerator = _cells.GetEnumerator();
-            while (enumerator.MoveNext())
-                if (enumerator.Current is Cell { TileValue: null } cell)
-                    yield return cell;
-        }
-
-        public IEnumerable<int?> EnumerateTileValues()
+        public IEnumerable<Cell> EnumerateCells()
         {
             var enumerator = _cells.GetEnumerator();
             while (enumerator.MoveNext())
                 if (enumerator.Current is Cell cell)
-                    yield return cell.TileValue;
+                    yield return cell;
         }
     }
 }

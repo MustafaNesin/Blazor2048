@@ -10,7 +10,7 @@
                     <span class="display-3 font-weight-bold">2048</span>
                 </div>
             </div>
-            <GameComponent Game="@GameService.Game" NewGameClick="@GameService.NewGameAsync"/>
+            <GameComponent Game="@GameService.Game" NewGameCallback="@GameService.NewGameAsync"/>
             <div class="row my-3 justify-content-center text-center">
                 <div class="col-auto">
                     <span>
@@ -36,8 +36,11 @@
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        if (firstRender)
-            await _container.FocusAsync();
+        if (!firstRender)
+            return;
+
+        GameService.Container = _container;
+        await GameService.FocusAsync();
     }
 
     private async Task KeyDown(KeyboardEventArgs e)

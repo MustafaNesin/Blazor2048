@@ -9,6 +9,7 @@ namespace Blazor2048.Models
         private const int WinningTileValue = 2048;
         private const int StartTiles = 2;
         private readonly Random _random;
+        private int _previousScore;
 
         public Game()
         {
@@ -35,9 +36,11 @@ namespace Blazor2048.Models
         public int Score { get; private set; }
         public Grid Grid { get; }
 
+        public bool CanUndo { get; set; }
+
         private void AddRandomTile()
         {
-            var emptyCells = Grid.EnumerateEmptyCells().ToArray();
+            var emptyCells = Grid.EnumerateCells().Where(cell => !cell.TileValue.HasValue).ToArray();
 
             if (emptyCells.Length == 0)
                 return;
@@ -48,20 +51,34 @@ namespace Blazor2048.Models
             emptyCell.TileValue = tileValue;
         }
 
+        public void Undo()
+        {
+            if (!CanUndo)
+                return;
+
+            foreach (var cell in Grid.EnumerateCells())
+                cell.TileValue = cell.PreviousTileValue;
+
+            Score = _previousScore;
+            CanUndo = false;
+        }
+
         public bool Move(Direction direction)
         {
             if (Over)
                 return false;
 
             var moved = false;
-
             var traversals = Grid.EnumerateTraversals(direction);
+            _previousScore = Score;
+
             foreach (var traversal in traversals)
                 moved |= MoveTraversal(traversal);
 
             if (!moved)
                 return false;
 
+            CanUndo = true;
             AddRandomTile();
 
             if (!Grid.CanMove())
@@ -79,7 +96,7 @@ namespace Blazor2048.Models
 
             foreach (var current in traversal)
             {
-                if (current.TileValue is null)
+                if (!current.TileValue.HasValue)
                     continue;
 
                 canMerge &= tail > -1 && finalValues[tail] == current.TileValue;
@@ -100,6 +117,7 @@ namespace Blazor2048.Models
             for (var i = 0; i < traversal.Count; i++)
             {
                 moved |= traversal[i].TileValue != finalValues[i];
+                traversal[i].PreviousTileValue = traversal[i].TileValue;
                 traversal[i].TileValue = finalValues[i];
             }
 
