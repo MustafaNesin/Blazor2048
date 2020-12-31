@@ -1,6 +1,6 @@
 ﻿@page "/"
 @page "/game"
-@inject GameService GameService
+@inject IGameService GameService
 
 <div class="container-fluid game" @onkeydown="KeyDown" tabindex="-1" @ref="_container">
     <div class="row justify-content-center">
@@ -17,8 +17,8 @@
             <div class="row my-3 justify-content-center text-center">
                 <div class="col-auto">
                     <span>
-                        Use <strong>arrow keys</strong> on your keyboard or <br/>
-                        <strong>arrow buttons</strong> above to move tiles.
+                        Use the <strong>arrow keys</strong> on your keyboard or <br/>
+                        the <strong>arrow buttons</strong> above to move tiles.
                     </span>
                 </div>
             </div>

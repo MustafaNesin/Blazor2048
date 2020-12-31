@@ -18,7 +18,7 @@ namespace Blazor2048
                 {
                     BaseAddress = new(builder.HostEnvironment.BaseAddress)
                 })
-                .AddScoped<GameService>();
+                .AddScoped<IGameService, GameService>();
 
             await builder.Build().RunAsync();
         }

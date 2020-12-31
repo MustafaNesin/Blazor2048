@@ -2,7 +2,7 @@
 
 namespace Blazor2048.Services
 {
-    public class GameService
+    public class GameService : IGameService
     {
         public Game? Game { get; private set; }
 
