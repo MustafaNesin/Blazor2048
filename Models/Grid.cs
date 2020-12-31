@@ -5,19 +5,17 @@ namespace Blazor2048.Models
 {
     public class Grid
     {
+        public const int Size = 4;
         private readonly Cell[,] _cells;
 
-        public Grid(int size)
+        public Grid()
         {
-            Size = size;
             _cells = new Cell[Size, Size];
 
             for (var y = 0; y < Size; y++)
             for (var x = 0; x < Size; x++)
                 _cells[y, x] = new(x, y);
         }
-
-        public int Size { get; }
 
         public int? this[int x, int y]
         {

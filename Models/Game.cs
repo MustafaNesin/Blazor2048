@@ -6,14 +6,14 @@ namespace Blazor2048.Models
 {
     public class Game
     {
+        private const int WinningTileValue = 2048;
+        private const int StartTiles = 2;
         private readonly Random _random;
 
-        public Game(int gridSize = 4, int startTiles = 2, int winningTileValue = 2048)
+        public Game()
         {
             _random = new();
-            Grid = new(gridSize);
-            StartTiles = startTiles;
-            WinningTileValue = winningTileValue;
+            Grid = new();
 
             for (var i = 0; i < StartTiles; i++)
                 AddRandomTile();
@@ -21,10 +21,8 @@ namespace Blazor2048.Models
 
         public bool Over { get; private set; }
         public bool Won { get; private set; }
-        public int WinningTileValue { get; }
         public int Score { get; private set; }
         public Grid Grid { get; }
-        public int StartTiles { get; }
 
         private void AddRandomTile()
         {
