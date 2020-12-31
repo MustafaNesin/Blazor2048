@@ -77,15 +77,13 @@ namespace Blazor2048.Models
 
                 if (canMerge)
                 {
-                    Score += (int) (finalValues[tail] *= 2)!;
+                    Score += (int)(finalValues[tail] *= 2)!;
 
                     if (finalValues[tail] == WinningTileValue)
                         Won = true;
                 }
                 else
-                {
                     finalValues[++tail] = current.TileValue;
-                }
 
                 canMerge ^= true;
             }
