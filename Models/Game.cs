@@ -72,6 +72,7 @@ namespace Blazor2048.Models
             }
 
             Score = _previousScore;
+            Over = false;
             CanUndo = false;
         }
 
