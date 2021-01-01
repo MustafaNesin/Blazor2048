@@ -6,7 +6,7 @@
             <div class="row flex-nowrap">
                 @for (var x = 0; x < Grid.Size; x++)
                 {
-                    <CellComponent TileValue="Grid[x, y]"/>
+                    <CellComponent Cell="@Grid[x, y]"/>
                 }
             </div>
         }

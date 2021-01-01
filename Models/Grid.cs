@@ -17,17 +17,11 @@ namespace Blazor2048.Models
                 _cells[y, x] = new();
         }
 
-        public int? this[int x, int y]
-        {
-            get => GetTileValue(x, y);
-            set => SetTileValue(x, y, value);
-        }
+        public Cell this[int x, int y] => GetCell(x, y);
 
         private Cell GetCell(int x, int y) => _cells[y, x];
-        public int? GetTileValue(int x, int y) => GetCell(x, y).TileValue;
-        public void SetTileValue(int x, int y, int? tileValue) => GetCell(x, y).TileValue = tileValue;
 
-        public bool CanMerge()
+        private bool CanMerge()
         {
             for (var y = 0; y < Size; y++)
             {
@@ -36,8 +30,8 @@ namespace Blazor2048.Models
 
                 for (var x = 0; x < Size; x++)
                 {
-                    var hValue = GetTileValue(x, y);
-                    var vValue = GetTileValue(y, x);
+                    var hValue = GetCell(x, y).TileValue;
+                    var vValue = GetCell(y, x).TileValue;
 
                     if (hValue == left || vValue == top)
                         return true;

@@ -1,4 +1,9 @@
-﻿.cell {
+﻿:root {
+    --animate-delay: 100ms;
+    --animate-duration: 100ms;
+}
+
+.cell {
     background-color: hsl(30, 20%, 80%);
     height: 50px;
     width: 50px;

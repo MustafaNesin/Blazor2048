@@ -28,7 +28,7 @@ namespace Blazor2048.Models
             Score = score;
             for (var y = 0; y < Grid.Size; y++)
             for (var x = 0; x < Grid.Size; x++)
-                Grid[x, y] = tileValues[y * Grid.Size + x];
+                Grid[x, y].TileValue = tileValues[y * Grid.Size + x];
         }
 
         public bool Over { get; private set; }
@@ -36,7 +36,7 @@ namespace Blazor2048.Models
         public int Score { get; private set; }
         public Grid Grid { get; }
 
-        public bool CanUndo { get; set; }
+        public bool CanUndo { get; private set; }
 
         private void AddRandomTile()
         {
@@ -49,6 +49,7 @@ namespace Blazor2048.Models
             var tileValue = _random.NextDouble() < 0.9 ? 2 : 4;
 
             emptyCell.TileValue = tileValue;
+            emptyCell.Animation = CellAnimation.ZoomIn;
         }
 
         public void Undo()
@@ -57,7 +58,18 @@ namespace Blazor2048.Models
                 return;
 
             foreach (var cell in Grid.EnumerateCells())
-                cell.TileValue = cell.PreviousTileValue;
+            {
+                var tileValue = cell.TileValue;
+                cell.TileValue = cell.OldTileValue;
+                cell.OldTileValue = tileValue;
+
+                cell.Animation = cell.Animation switch
+                {
+                    CellAnimation.ZoomIn => CellAnimation.ZoomOut,
+                    CellAnimation.ZoomOut => CellAnimation.None,
+                    _ => cell.Animation
+                };
+            }
 
             Score = _previousScore;
             CanUndo = false;
@@ -78,8 +90,8 @@ namespace Blazor2048.Models
             if (!moved)
                 return false;
 
-            CanUndo = true;
             AddRandomTile();
+            CanUndo = true;
 
             if (!Grid.CanMove())
                 Over = true;
@@ -93,6 +105,7 @@ namespace Blazor2048.Models
             var tail = -1;
             var canMerge = false;
             var moved = false;
+            var mergedIndices = new List<int>();
 
             foreach (var current in traversal)
             {
@@ -104,6 +117,7 @@ namespace Blazor2048.Models
                 if (canMerge)
                 {
                     Score += (int)(finalValues[tail] *= 2)!;
+                    mergedIndices.Add(tail);
 
                     if (finalValues[tail] == WinningTileValue)
                         Won = true;
@@ -117,8 +131,9 @@ namespace Blazor2048.Models
             for (var i = 0; i < traversal.Count; i++)
             {
                 moved |= traversal[i].TileValue != finalValues[i];
-                traversal[i].PreviousTileValue = traversal[i].TileValue;
+                traversal[i].OldTileValue = traversal[i].TileValue;
                 traversal[i].TileValue = finalValues[i];
+                traversal[i].Animation = mergedIndices.Contains(i) ? CellAnimation.BounceIn : CellAnimation.None;
             }
 
             return moved;

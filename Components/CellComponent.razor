@@ -1,32 +1,62 @@
 ﻿<div class="col-auto cell">
-    @if (TileValue.HasValue)
-    {
-        <div class="@TileClassName">
-            @TileValue
-        </div>
-    }
+    <div class="@TileClassName">
+        @TileText
+    </div>
 </div>
 
 @code {
 
+#nullable enable
     [Parameter]
-    public int? TileValue { get; set; }
+    public Cell? Cell { get; set; }
 
-    private string TileClassName => TileValue switch
+    private string TileClassName
     {
-        null => string.Empty,
-        2 => "tile tile-2",
-        4 => "tile tile-4",
-        8 => "tile tile-8",
-        16 => "tile tile-16",
-        32 => "tile tile-32",
-        64 => "tile tile-64",
-        128 => "tile tile-128",
-        256 => "tile tile-256",
-        512 => "tile tile-512",
-        1024 => "tile tile-1024",
-        2048 => "tile tile-2048",
-        _ => "tile tile-super"
-        };
+        get
+        {
+            if (Cell is null)
+                return string.Empty;
+
+            return Cell.Animation switch
+            {
+                CellAnimation.BounceIn => GetClassName(Cell.TileValue) + " animate__animated animate__pulse",
+                CellAnimation.ZoomIn => GetClassName(Cell.TileValue) + " animate__animated animate__zoomIn",
+                CellAnimation.ZoomOut when !Cell.TileValue.HasValue => 
+                    GetClassName(Cell.OldTileValue) + " animate__animated animate__zoomOut",
+                _ => GetClassName(Cell.TileValue)
+                };
+
+            static string GetClassName(int? tileValue) => tileValue switch
+            {
+                null => string.Empty,
+                2 => "tile tile-2",
+                4 => "tile tile-4",
+                8 => "tile tile-8",
+                16 => "tile tile-16",
+                32 => "tile tile-32",
+                64 => "tile tile-64",
+                128 => "tile tile-128",
+                256 => "tile tile-256",
+                512 => "tile tile-512",
+                1024 => "tile tile-1024",
+                2048 => "tile tile-2048",
+                _ => "tile tile-super"
+                };
+        }
+    }
+
+    private string TileText
+    {
+        get
+        {
+            if (Cell is null)
+                return string.Empty;
+
+            if (Cell.TileValue.HasValue)
+                return Cell.ToString();
+
+            return Cell.Animation == CellAnimation.ZoomOut ? Cell.OldTileValue.ToString()! : string.Empty;
+        }
+    }
 
 }
