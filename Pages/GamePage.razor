@@ -2,7 +2,10 @@
 @page "/game"
 @inject IGameService GameService
 
-<div class="container-fluid game" @onkeydown="KeyDown" tabindex="-1" @ref="_container">
+<div class="container-fluid game" @onkeydown="KeyDown" tabindex="-1" @ref="_container" 
+         unselectable="on"
+         onselectstart="return false;"
+         style="-moz-user-select: none; -webkit-user-select: none; -ms-user-select:none; user-select:none; -o-user-select:none;">
     <div class="row justify-content-center">
         <div class="col-auto">
             <GameComponent Game="@GameService.Game" NewGameCallback="@GameService.NewGameAsync"/>
