@@ -1,4 +1,5 @@
-﻿@inject IGameService GameService
+﻿@using System.Globalization
+@inject IGameService GameService
 
 <div class="row mt-3 align-items-sm-center justify-content-between">
     <div class="col-auto px-0">
@@ -6,9 +7,18 @@
     </div>
     <div class="col-auto px-0 d-flex align-items-center text-right">
         <span class="smaller d-block">
-            <span class="touch-screen"><strong>Swipe</strong> with your fingers<br/></span>
-            <span class="non-touch-screen">Use your <strong>arrow keys</strong><br/></span>
-            to move the tiles.
+            @if (GameService.IsTurkish)
+            {
+                @:Kutucukları taşımak için<br/>
+                <span class="touch-screen"><strong>parmağınızla</strong> kaydırın.</span>
+                <span class="non-touch-screen"> <strong>yön tuşlarını</strong> kullanın.</span>
+            }
+            else
+            {
+                <span class="touch-screen"><strong>Swipe</strong> with your fingers<br/></span>
+                <span class="non-touch-screen">Use your <strong>arrow keys</strong><br/></span>
+                @:to move the tiles.
+            }
         </span>
     </div>
 </div>
@@ -16,24 +26,30 @@
     <div class="col-auto px-0">
         <div class="row">
             <div class="col">
-                <span class="font-weight-bold"><span class="oi oi-bar-chart"></span> Best:</span>
+                <span class="font-weight-bold">
+                    <span class="oi oi-bar-chart"></span>
+                    @(GameService.IsTurkish ? "En İyi" : "Best"):
+                </span>
                 <span>@GameService.BestScore</span>
             </div>
         </div>
         <div class="row">
             <div class="col">
-                <span class="font-weight-bold"><span class="oi oi-target"></span> Score:</span>
+                <span class="font-weight-bold">
+                    <span class="oi oi-target"></span>
+                    @(GameService.IsTurkish ? "Puan" : "Score"):
+                </span>
                 <span class="mr-1">@(Game?.Score ?? 0)</span>
                 @if (Game is not null)
                 {
                     <span class="font-weight-bolder">
                         @if (Game.Over)
                         {
-                            @:(Over)
+                            @(GameService.IsTurkish ? "Bitti" : "Over")
                         }
                         else if (Game.Won)
                         {
-                            @:(Won)
+                            @(GameService.IsTurkish ? "Kazandı" : "Won")
                         }
                     </span>
                 }
@@ -44,14 +60,16 @@
         <div class="row">
             <div class="col">
                 <button class="btn btn-game" @onclick="NewGameCallback">
-                    <span class="oi oi-plus mr-2"></span>New Game
+                    <span class="oi oi-plus mr-2"></span>
+                    @(GameService.IsTurkish ? "Yeni Oyun" : "New Game")
                 </button>
             </div>
         </div>
         <div class="row mt-1">
             <div class="col">
                 <button class="btn btn-game" @onclick="UndoAsync" disabled="@(GameService.Game?.CanUndo == false)">
-                    <span class="oi oi-reload mr-2"></span>Undo
+                    <span class="oi oi-reload mr-2"></span>
+                    @(GameService.IsTurkish ? "Geri Al" : "Undo")
                 </button>
             </div>
         </div>

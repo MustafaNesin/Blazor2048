@@ -7,8 +7,9 @@ namespace Blazor2048.Services
     public interface IGameService
     {
         int BestScore { get; }
-        ElementReference? Container { get; set; }
+        ElementReference? Container { set; }
         bool IsGameStarted { get; }
+        bool IsTurkish { get; }
         Game? Game { get; }
         Task FocusAsync();
         Task<bool> LoadGameAsync();

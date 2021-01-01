@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Globalization;
+using System.Threading.Tasks;
 using Blazor2048.Models;
 using Blazored.LocalStorage;
 using Microsoft.AspNetCore.Components;
@@ -12,9 +13,11 @@ namespace Blazor2048.Services
         public GameService(ILocalStorageService storageService)
         {
             _storageService = storageService;
+            IsTurkish = CultureInfo.CurrentUICulture.Name.Equals("tr-TR");
             var unused = InitializeAsync();
         }
 
+        public bool IsTurkish { get; }
         public ElementReference? Container { get; set; }
         public Game? Game { get; private set; }
         public int BestScore { get; private set; }
