@@ -11,4 +11,8 @@ The 2048 game implementation as a proof-of-concept app using Blazor WebAssembly 
 ![Animate.css](https://shields.io/badge/Animate.css-v4.1.1-orange)
 ![PWA](https://shields.io/badge/-PWA-blue)
 
+##How to Play?
+Use arrow keys on your keyboard or swipe with your fingers to move the tiles.
+Tiles with the same number merge into one when they touch. Add them up to reach 2048!
+
 Original game repo: [gabrielecirulli/2048](https://github.com/gabrielecirulli/2048/)
