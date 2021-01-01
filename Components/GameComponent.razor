@@ -1,6 +1,18 @@
 ﻿@inject IGameService GameService
 
-<div class="row my-3 align-items-center justify-content-between">
+<div class="row mt-3 align-items-sm-center justify-content-between">
+    <div class="col-auto px-0">
+        <h1 class="font-weight-bold mb-0">2048</h1>
+    </div>
+    <div class="col-auto px-0 text-right">
+        <span class="smaller d-block align-self-center">
+            <span class="touch-screen"><strong>Swipe</strong> with your fingers<br/></span>
+            <span class="non-touch-screen">Use your <strong>arrow keys</strong><br/></span>
+            to move the tiles.
+        </span>
+    </div>
+</div>
+<div class="row mt-1 mb-3 mt-sm-3 align-items-center justify-content-between">
     <div class="col-auto px-0">
         <div class="row">
             <div class="col">
@@ -31,14 +43,14 @@
     <div class="col-auto px-0 text-right">
         <div class="row">
             <div class="col">
-                <button class="btn btn-game btn-responsive" @onclick="NewGameCallback">
+                <button class="btn btn-game" @onclick="NewGameCallback">
                     <span class="oi oi-plus mr-2"></span>New Game
                 </button>
             </div>
         </div>
         <div class="row mt-1">
             <div class="col">
-                <button class="btn btn-game btn-responsive" @onclick="UndoAsync" disabled="@(GameService.Game?.CanUndo == false)">
+                <button class="btn btn-game" @onclick="UndoAsync" disabled="@(GameService.Game?.CanUndo == false)">
                     <span class="oi oi-reload mr-2"></span>Undo
                 </button>
             </div>
@@ -47,36 +59,6 @@
 </div>
 <div class="row justify-content-center">
     <GridComponent Grid="@Game?.Grid"/>
-</div>
-<div class="row my-3">
-    <div class="col">
-        <div class="row justify-content-center">
-            <div class="col-auto">
-                <button class="btn btn-game" @onclick="MoveUpAsync">
-                    <i class="oi oi-arrow-thick-top"></i>
-                </button>
-            </div>
-        </div>
-        <div class="row justify-content-center my-2">
-            <div class="col-auto mr-3">
-                <button class="btn btn-game" @onclick="MoveLeftAsync">
-                    <i class="oi oi-arrow-thick-left"></i>
-                </button>
-            </div>
-            <div class="col-auto ml-3">
-                <button class="btn btn-game" @onclick="MoveRightAsync">
-                    <i class="oi oi-arrow-thick-right"></i>
-                </button>
-            </div>
-        </div>
-        <div class="row justify-content-center">
-            <div class="col-auto">
-                <button class="btn btn-game" @onclick="MoveDownAsync">
-                    <i class="oi oi-arrow-thick-bottom"></i>
-                </button>
-            </div>
-        </div>
-    </div>
 </div>
 
 @code {
@@ -93,9 +75,4 @@
         await GameService.UndoAsync();
         await GameService.FocusAsync();
     }
-
-    private async Task MoveUpAsync() => await GameService.MoveAsync(Direction.Up);
-    private async Task MoveRightAsync() => await GameService.MoveAsync(Direction.Right);
-    private async Task MoveDownAsync() => await GameService.MoveAsync(Direction.Down);
-    private async Task MoveLeftAsync() => await GameService.MoveAsync(Direction.Left);
 }

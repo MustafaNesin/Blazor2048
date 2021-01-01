@@ -2,6 +2,11 @@
     background-color: hsl(30, 20%, 98%);
     color: hsl(30, 20%, 45%);
     height: 100%;
+    -moz-user-select: none; 
+    -webkit-user-select: none; 
+    -ms-user-select:none; 
+    user-select:none; 
+    -o-user-select:none;
 }
 
 @media (min-width: 576px) {

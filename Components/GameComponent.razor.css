@@ -13,8 +13,27 @@
     box-shadow: none;
 }
 
+.smaller {
+    font-size: 70%;
+    font-weight: 400;
+}
+
+.touch-screen {
+    display: none;    
+}
+
+@media (hover: none) {
+    .touch-screen {
+        display: inline;
+    }
+    
+    .non-touch-screen {
+        display: none;
+    }
+}
+
 @media (max-width: 575px) {
-    .btn-responsive {
+    .btn-game {
         padding: 0.3rem 0.6rem;
         font-weight: normal;
         font-size: 0.7rem;

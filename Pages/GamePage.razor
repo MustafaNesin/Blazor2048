@@ -2,10 +2,15 @@
 @page "/game"
 @inject IGameService GameService
 
-<div class="container-fluid game" @onkeydown="KeyDown" tabindex="-1" @ref="_container" 
-         unselectable="on"
-         onselectstart="return false;"
-         style="-moz-user-select: none; -webkit-user-select: none; -ms-user-select:none; user-select:none; -o-user-select:none;">
+<div class="container-fluid game"
+     @ref="_container"
+     @onkeydown="KeyDown"
+     @ontouchstart="TouchStart"
+     @ontouchend="TouchEnd"
+     @ontouchmove:preventDefault
+     unselectable="on"
+     onselectstart="return false;"
+     tabindex="-1">
     <div class="row justify-content-center">
         <div class="col-auto">
             <GameComponent Game="@GameService.Game" NewGameCallback="@GameService.NewGameAsync"/>
@@ -15,6 +20,7 @@
 
 @code {
 #nullable enable
+    private double? _touchStartX, _touchStartY;
     private ElementReference _container;
 
     protected override async Task OnInitializedAsync()
@@ -58,4 +64,43 @@
         }
     }
 
+    private void TouchStart(TouchEventArgs e)
+    {
+        if (e.TargetTouches.Length != 1)
+            return;
+
+        _touchStartX = e.TargetTouches[0].ClientX;
+        _touchStartY = e.TargetTouches[0].ClientY;
+    }
+
+    private async Task TouchEnd(TouchEventArgs e)
+    {
+        if (e.TargetTouches.Length > 0 || !_touchStartX.HasValue)
+            return;
+
+        var touchStartX = (double)_touchStartX!;
+        var touchStartY = (double)_touchStartY!;
+        var touchEndX = e.ChangedTouches[0].ClientX;
+        var touchEndY = e.ChangedTouches[0].ClientY;
+        
+        var dx = touchEndX - touchStartX;
+        var dy = touchEndY - touchStartY;
+        var absDx = Math.Abs(dx);
+        var absDy = Math.Abs(dy);
+
+        if (Math.Max(absDx, absDy) > 10)
+            if (absDx > absDy)
+                if (dx > 0)
+                    await GameService.MoveAsync(Direction.Right);
+                else
+                    await GameService.MoveAsync(Direction.Left);
+            
+            else
+                if (dy > 0)
+                    await GameService.MoveAsync(Direction.Down);
+                else
+                    await GameService.MoveAsync(Direction.Up);
+
+        _touchStartX = _touchStartY = null;
+    }
 }
