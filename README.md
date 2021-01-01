@@ -8,6 +8,7 @@ The 2048 game implementation as a proof-of-concept app using Blazor WebAssembly 
 ![.NET](https://img.shields.io/badge/.NET-v5.0-brightgreen)
 ![Bootstrap](https://img.shields.io/badge/Bootstrap-v4.3.1-blueviolet)
 ![Open Iconic](https://img.shields.io/badge/Open%20Iconic-v1.1.1-red)
+![Animate.css](https://shields.io/badge/Animate.css-v4.1.1-orange)
 ![PWA](https://shields.io/badge/-PWA-blue)
 
 Original game repo: [gabrielecirulli/2048](https://github.com/gabrielecirulli/2048/)

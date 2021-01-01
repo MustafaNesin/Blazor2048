@@ -40,6 +40,9 @@
 
         switch (e.Key)
         {
+            case "Backspace":
+                await GameService.UndoAsync();
+                break;
             case "ArrowUp":
                 await GameService.MoveAsync(Direction.Up);
                 break;
