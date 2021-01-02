@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<root>
+    <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+        <xsd:element name="root" msdata:IsDataSet="true">
+            
+        </xsd:element>
+    </xsd:schema>
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>1.3</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <data name="TouchScreenTip" xml:space="preserve">
+        <value>Swipe with &lt;strong&gt;your fingers&lt;/strong&gt;&lt;br/&gt; to move the tiles.</value>
+    </data>
+    <data name="NonTouchScreenTip" xml:space="preserve">
+        <value>Use your &lt;strong&gt;arrow keys&lt;/strong&gt;&lt;br/&gt; to move the tiles.</value>
+    </data>
+    <data name="BestScore" xml:space="preserve">
+        <value>Best</value>
+    </data>
+    <data name="Score" xml:space="preserve">
+        <value>Score</value>
+    </data>
+    <data name="NewGame" xml:space="preserve">
+        <value>New Game</value>
+    </data>
+    <data name="Undo" xml:space="preserve">
+        <value>Undo</value>
+    </data>
+    <data name="YouWon" xml:space="preserve">
+        <value>You Won!</value>
+    </data>
+    <data name="GameOver" xml:space="preserve">
+        <value>Game Over</value>
+    </data>
+    <data name="KeepPlaying" xml:space="preserve">
+        <value>Keep Playing</value>
+    </data>
+    <data name="ArgumentExceptionOutOfGridColumns" xml:space="preserve">
+        <value>Specified column index is out of grid range.</value>
+    </data>
+    <data name="ArgumentExceptionOutOfGridRows" xml:space="preserve">
+        <value>Specified row index is out of grid range.</value>
+    </data>
+</root>
