@@ -31,7 +31,7 @@
                 </div>
             </div>
             <div class="row mt-1 mb-3 mt-sm-3 align-items-center justify-content-between">
-                <div class="col-auto px-0">
+                <div class="col-auto px-0 small">
                     <div class="row">
                         <div class="col">
                             <span class="font-weight-bold">
@@ -59,24 +59,19 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-auto px-0 text-right">
+                <div class="col-auto px-0">
                     <div class="row">
-                        <div class="col">
+                        <div class="col-auto pr-0">
                             <button class="btn btn-game" @onclick="NewGameAsync">
-                                <span class="oi oi-plus mr-2"></span>
+                                <span class="oi oi-plus mr-1"></span>
                                 <span>
-                                    @Localization.NewGame
+                                    @Localization.New
                                 </span>
                             </button>
                         </div>
-                    </div>
-                    <div class="row mt-1">
-                        <div class="col">
-                            <button class="btn btn-game" @onclick="UndoAsync" disabled="@(!GameService.CanGameUndo)">
-                                <span class="oi oi-reload mr-2"></span>
-                                <span>
-                                    @Localization.Undo
-                                </span>
+                        <div class="col-auto">
+                            <button class="btn btn-game px-3" @onclick="UndoAsync" disabled="@(!GameService.CanGameUndo)">
+                                <span class="oi oi-action-undo"></span>
                             </button>
                         </div>
                     </div>

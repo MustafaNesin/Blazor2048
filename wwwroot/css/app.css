@@ -13,6 +13,7 @@
     border-color: hsl(30, 20%, 45%);
     color: white;
     font-weight: bolder;
+    padding: 0.4rem;
 }
 
 .btn-game:hover {
@@ -25,7 +26,6 @@
 
 @media (max-width: 575px) {
     .btn-game {
-        padding: 0.3rem 0.6rem;
         font-weight: normal;
         font-size: 0.7rem;
     }

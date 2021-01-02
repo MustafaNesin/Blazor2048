@@ -44,4 +44,7 @@
     <data name="ArgumentExceptionOutOfGridRows" xml:space="preserve">
         <value>Belirtilen satır indisi ızgara aralığının dışında.</value>
     </data>
+    <data name="New" xml:space="preserve">
+        <value>Yeni</value>
+    </data>
 </root>

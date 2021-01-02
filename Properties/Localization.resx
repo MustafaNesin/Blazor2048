@@ -51,4 +51,7 @@
     <data name="ArgumentExceptionOutOfGridRows" xml:space="preserve">
         <value>Specified row index is out of grid range.</value>
     </data>
+    <data name="New" xml:space="preserve">
+        <value>New</value>
+    </data>
 </root>
