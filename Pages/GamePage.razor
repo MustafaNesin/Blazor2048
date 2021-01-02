@@ -13,39 +13,125 @@
      tabindex="-1">
     <div class="row justify-content-center">
         <div class="col-auto">
-            <GameComponent Game="@GameService.Game" NewGameCallback="@GameService.NewGameAsync"/>
+            <div class="row mt-3 align-items-sm-center justify-content-between">
+                <div class="col-auto px-0">
+                    <h1 class="font-weight-bold mb-0">
+                        @Services.GameService.DefaultWinningTileValue
+                    </h1>
+                </div>
+                <div class="col-auto px-0 d-flex align-items-center text-right">
+                    <span class="smaller d-block">
+                        <span class="touch-screen">
+                            @(new MarkupString(Localization.TouchScreenTip))
+                        </span>
+                        <span class="non-touch-screen">
+                            @(new MarkupString(Localization.NonTouchScreenTip))
+                        </span>
+                    </span>
+                </div>
+            </div>
+            <div class="row mt-1 mb-3 mt-sm-3 align-items-center justify-content-between">
+                <div class="col-auto px-0">
+                    <div class="row">
+                        <div class="col">
+                            <span class="font-weight-bold">
+                                <span class="oi oi-bar-chart"></span>
+                                <span>
+                                    @Localization.BestScore:
+                                </span>
+                            </span>
+                            <span>
+                                @GameService.BestScore
+                            </span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <span class="font-weight-bold">
+                                <span class="oi oi-target"></span>
+                                <span>
+                                    @Localization.Score:
+                                </span>
+                            </span>
+                            <span class="mr-1">
+                                @GameService.Score
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-auto px-0 text-right">
+                    <div class="row">
+                        <div class="col">
+                            <button class="btn btn-game" @onclick="NewGameAsync">
+                                <span class="oi oi-plus mr-2"></span>
+                                <span>
+                                    @Localization.NewGame
+                                </span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="row mt-1">
+                        <div class="col">
+                            <button class="btn btn-game" @onclick="UndoAsync" disabled="@(!GameService.CanGameUndo)">
+                                <span class="oi oi-reload mr-2"></span>
+                                <span>
+                                    @Localization.Undo
+                                </span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row justify-content-center">
+                <GridComponent NewGame="@NewGameAsync"
+                               Undo="@UndoAsync"
+                               Resume="@ResumeAsync"/>
+            </div>
         </div>
     </div>
 </div>
 
 @code {
 #nullable enable
+
     private double? _touchStartX, _touchStartY;
     private ElementReference _container;
 
-    protected override async Task OnInitializedAsync()
-    {
-        if (!GameService.IsGameStarted)
-            if (!await GameService.LoadGameAsync())
-                await GameService.NewGameAsync();
-    }
-
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        if (!firstRender)
-            return;
+        if (firstRender)
+            await _container.FocusAsync();
+    }
 
-        GameService.Container = _container;
-        await GameService.FocusAsync();
+    private async Task NewGameAsync()
+    {
+        await GameService.NewGameAsync();
+        await _container.FocusAsync();
+    }
+
+    private async Task UndoAsync()
+    {
+        await GameService.UndoAsync();
+        await _container.FocusAsync();
+    }
+
+    private async Task ResumeAsync()
+    {
+        GameService.Resume();
+        await _container.FocusAsync();
     }
 
     private async Task KeyDown(KeyboardEventArgs e)
     {
-        if (!GameService.IsGameStarted)
-            return;
-
         switch (e.Key)
         {
+            case "Enter":
+                if (GameService.IsGamePaused)
+                    if (GameService.IsGameOver)
+                        await GameService.NewGameAsync();
+                    else
+                        GameService.Resume();
+                break;
             case "Backspace":
                 await GameService.UndoAsync();
                 break;
@@ -82,7 +168,7 @@
         var touchStartY = (double)_touchStartY!;
         var touchEndX = e.ChangedTouches[0].ClientX;
         var touchEndY = e.ChangedTouches[0].ClientY;
-        
+
         var dx = touchEndX - touchStartX;
         var dy = touchEndY - touchStartY;
         var absDx = Math.Abs(dx);
@@ -94,13 +180,13 @@
                     await GameService.MoveAsync(Direction.Right);
                 else
                     await GameService.MoveAsync(Direction.Left);
-            
+
+            else if (dy > 0)
+                await GameService.MoveAsync(Direction.Down);
             else
-                if (dy > 0)
-                    await GameService.MoveAsync(Direction.Down);
-                else
-                    await GameService.MoveAsync(Direction.Up);
+                await GameService.MoveAsync(Direction.Up);
 
         _touchStartX = _touchStartY = null;
     }
+
 }

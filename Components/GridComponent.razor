@@ -1,22 +1,49 @@
-﻿<div class="col-auto grid">
-    @if (Grid is not null)
-    {
-        for (var y = 0; y < Grid.Size; y++)
+﻿@inject IGameService GameService
+
+<div class="col-auto grid">
+    @{
+        var gridSize = GameService.GridSize;
+        var isGameOver = GameService.IsGameOver;
+
+        for (var y = 0; y < gridSize; y++)
         {
             <div class="row flex-nowrap">
-                @for (var x = 0; x < Grid.Size; x++)
+                @for (var x = 0; x < gridSize; x++)
                 {
-                    <CellComponent Cell="@Grid[x, y]"/>
+                    <CellComponent Cell="@GameService.GetCell(x, y)"/>
                 }
+            </div>
+        }
+
+        if (GameService.IsGamePaused && (isGameOver || GameService.IsGameWon))
+        {
+            <div class="message-container @(isGameOver ? "over" : "won")">
+                <span class="h2 font-weight-bold">
+                    @(isGameOver ? Localization.GameOver : Localization.YouWon)
+                </span>
+                <div>
+                    <button class="btn btn-game mr-3" @onclick="NewGame">
+                        @Localization.NewGame
+                    </button>
+                    <button class="btn btn-game" @onclick="@(isGameOver ? Undo : Resume)">
+                        @(isGameOver ? Localization.Undo : Localization.KeepPlaying)
+                    </button>
+                </div>
             </div>
         }
     }
 </div>
 
 @code {
-
 #nullable enable
+
     [Parameter]
-    public Grid? Grid { get; set; }
+    public EventCallback NewGame { get; set; }
+
+    [Parameter]
+    public EventCallback Undo { get; set; }
+
+    [Parameter]
+    public EventCallback Resume { get; set; }
 
 }

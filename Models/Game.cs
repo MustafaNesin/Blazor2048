@@ -4,39 +4,90 @@ using System.Linq;
 
 namespace Blazor2048.Models
 {
-    public class Game
+    public class Game : IGame
     {
-        private const int WinningTileValue = 2048;
-        private const int StartTiles = 2;
         private readonly Random _random;
-        private int _previousScore;
+        private int _oldScore;
 
-        public Game()
+        public Game(int gridSize, int startTiles, int winningTileValue)
         {
             _random = new();
-            Grid = new();
+            WinningTileValue = winningTileValue;
+            Grid = new Grid(gridSize);
 
-            for (var i = 0; i < StartTiles; i++)
+            for (var i = 0; i < startTiles; i++)
                 AddRandomTile();
         }
 
-        internal Game(int score, int?[] tileValues)
+        public Game(int winningTileValue, int score, IList<int?> tileValues)
         {
             _random = new();
-            Grid = new();
-
             Score = score;
+            WinningTileValue = winningTileValue;
+            IsWon = tileValues.Any(value => value >= WinningTileValue);
+            Grid = new Grid((int)Math.Sqrt(tileValues.Count));
+
             for (var y = 0; y < Grid.Size; y++)
             for (var x = 0; x < Grid.Size; x++)
                 Grid[x, y].TileValue = tileValues[y * Grid.Size + x];
+
+            IsOver = !Grid.CanMove();
         }
 
-        public bool Over { get; private set; }
-        public bool Won { get; private set; }
         public int Score { get; private set; }
-        public Grid Grid { get; }
-
+        public bool IsOver { get; private set; }
+        public bool IsWon { get; private set; }
         public bool CanUndo { get; private set; }
+        public IGrid Grid { get; }
+        public int WinningTileValue { get; }
+
+        public bool Move(Direction direction)
+        {
+            var moved = false;
+            var traversals = Grid.EnumerateTraversals(direction);
+            _oldScore = Score;
+
+            // ReSharper disable once LoopCanBeConvertedToQuery
+            foreach (var traversal in traversals)
+                moved |= MoveTraversal(traversal);
+
+            if (!moved)
+                return false;
+
+            AddRandomTile();
+
+            if (!Grid.CanMove())
+                IsOver = true;
+
+            CanUndo = true;
+            return true;
+        }
+
+        public bool Undo()
+        {
+            if (!CanUndo)
+                return false;
+
+            foreach (var cell in Grid.EnumerateCells())
+            {
+                var tileValue = cell.TileValue;
+                cell.TileValue = cell.OldTileValue;
+                cell.OldTileValue = tileValue;
+
+                // ReSharper disable once ConvertIfStatementToSwitchExpression
+                // ReSharper disable once ConvertIfStatementToSwitchStatement
+                if (cell.Animation == CellAnimation.ZoomIn)
+                    cell.Animation = CellAnimation.ZoomOut;
+                else if (cell.Animation == CellAnimation.ZoomOut)
+                    cell.Animation = CellAnimation.None;
+            }
+
+            Score = _oldScore;
+            IsOver = false;
+            IsWon = Grid.EnumerateCells().Any(cell => cell.TileValue.HasValue && cell.TileValue >= WinningTileValue);
+            CanUndo = false;
+            return true;
+        }
 
         private void AddRandomTile()
         {
@@ -52,55 +103,7 @@ namespace Blazor2048.Models
             emptyCell.Animation = CellAnimation.ZoomIn;
         }
 
-        public void Undo()
-        {
-            if (!CanUndo)
-                return;
-
-            foreach (var cell in Grid.EnumerateCells())
-            {
-                var tileValue = cell.TileValue;
-                cell.TileValue = cell.OldTileValue;
-                cell.OldTileValue = tileValue;
-
-                cell.Animation = cell.Animation switch
-                {
-                    CellAnimation.ZoomIn => CellAnimation.ZoomOut,
-                    CellAnimation.ZoomOut => CellAnimation.None,
-                    _ => cell.Animation
-                };
-            }
-
-            Score = _previousScore;
-            Over = false;
-            CanUndo = false;
-        }
-
-        public bool Move(Direction direction)
-        {
-            if (Over)
-                return false;
-
-            var moved = false;
-            var traversals = Grid.EnumerateTraversals(direction);
-            _previousScore = Score;
-
-            foreach (var traversal in traversals)
-                moved |= MoveTraversal(traversal);
-
-            if (!moved)
-                return false;
-
-            AddRandomTile();
-            CanUndo = true;
-
-            if (!Grid.CanMove())
-                Over = true;
-
-            return true;
-        }
-
-        private bool MoveTraversal(IReadOnlyList<Cell> traversal)
+        private bool MoveTraversal(IReadOnlyList<ICell> traversal)
         {
             var finalValues = new int?[traversal.Count];
             var tail = -1;
@@ -121,7 +124,7 @@ namespace Blazor2048.Models
                     mergedIndices.Add(tail);
 
                     if (finalValues[tail] == WinningTileValue)
-                        Won = true;
+                        IsWon = true;
                 }
                 else
                     finalValues[++tail] = current.TileValue;

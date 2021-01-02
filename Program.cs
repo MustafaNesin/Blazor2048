@@ -7,7 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace Blazor2048
 {
-    public class Program
+    public static class Program
     {
         public static async Task Main(string[] args)
         {
@@ -22,7 +22,9 @@ namespace Blazor2048
                 .AddBlazoredLocalStorage()
                 .AddScoped<IGameService, GameService>();
 
-            await builder.Build().RunAsync();
+            var host = builder.Build();
+            await host.Services.GetRequiredService<IGameService>().InitializeAsync();
+            await host.RunAsync();
         }
     }
 }

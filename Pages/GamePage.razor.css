@@ -5,12 +5,32 @@
     -moz-user-select: none; 
     -webkit-user-select: none; 
     -ms-user-select:none; 
-    user-select:none; 
+    user-select:none;
+    /*noinspection CssUnknownProperty*/
     -o-user-select:none;
 }
 
 @media (min-width: 576px) {
     .game {
         font-size: 1.4rem;
+    }
+}
+
+.smaller {
+    font-size: 70%;
+    font-weight: 400;
+}
+
+.touch-screen {
+    display: none;
+}
+
+@media (hover: none) {
+    .touch-screen {
+        display: inline;
+    }
+
+    .non-touch-screen {
+        display: none;
     }
 }

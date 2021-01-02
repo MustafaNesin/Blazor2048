@@ -3,13 +3,13 @@ using System.Linq;
 
 namespace Blazor2048.Models
 {
-    public class Grid
+    public class Grid : IGrid
     {
-        public const int Size = 4;
         private readonly Cell[,] _cells;
 
-        public Grid()
+        public Grid(int size)
         {
+            Size = size;
             _cells = new Cell[Size, Size];
 
             for (var y = 0; y < Size; y++)
@@ -17,9 +17,35 @@ namespace Blazor2048.Models
                 _cells[y, x] = new();
         }
 
-        public Cell this[int x, int y] => GetCell(x, y);
+        public int Size { get; }
 
-        private Cell GetCell(int x, int y) => _cells[y, x];
+        public ICell this[int x, int y] => _cells[y, x];
+
+        public bool CanMove() => CanMerge() || HasEmptyCells();
+
+        public IEnumerable<ICell[]> EnumerateTraversals(Direction direction)
+        {
+            var isHorizontal = direction == Direction.Left || direction == Direction.Right;
+            var isPositive = direction == Direction.Right || direction == Direction.Down;
+
+            for (var y = 0; y < Size; y++)
+            {
+                var traversal = new ICell[Size];
+
+                for (var x = 0; x < Size; x++)
+                    traversal[isPositive ? Size - 1 - x : x] = isHorizontal ? _cells[y, x] : _cells[x, y];
+
+                yield return traversal;
+            }
+        }
+
+        public IEnumerable<ICell> EnumerateCells()
+        {
+            var enumerator = _cells.GetEnumerator();
+            while (enumerator.MoveNext())
+                if (enumerator.Current is Cell cell)
+                    yield return cell;
+        }
 
         private bool CanMerge()
         {
@@ -30,8 +56,8 @@ namespace Blazor2048.Models
 
                 for (var x = 0; x < Size; x++)
                 {
-                    var hValue = GetCell(x, y).TileValue;
-                    var vValue = GetCell(y, x).TileValue;
+                    var hValue = _cells[y, x].TileValue;
+                    var vValue = _cells[x, y].TileValue;
 
                     if (hValue == left || vValue == top)
                         return true;
@@ -44,32 +70,6 @@ namespace Blazor2048.Models
             return false;
         }
 
-        public bool HasEmptyCells() => EnumerateCells().Any(cell => !cell.TileValue.HasValue);
-
-        public bool CanMove() => CanMerge() || HasEmptyCells();
-
-        public IEnumerable<Cell[]> EnumerateTraversals(Direction direction)
-        {
-            var isHorizontal = direction == Direction.Left || direction == Direction.Right;
-            var isPositive = direction == Direction.Right || direction == Direction.Down;
-
-            for (var y = 0; y < Size; y++)
-            {
-                var traversal = new Cell[Size];
-
-                for (var x = 0; x < Size; x++)
-                    traversal[isPositive ? Size - 1 - x : x] = isHorizontal ? GetCell(x, y) : GetCell(y, x);
-
-                yield return traversal;
-            }
-        }
-
-        public IEnumerable<Cell> EnumerateCells()
-        {
-            var enumerator = _cells.GetEnumerator();
-            while (enumerator.MoveNext())
-                if (enumerator.Current is Cell cell)
-                    yield return cell;
-        }
+        private bool HasEmptyCells() => EnumerateCells().Any(cell => !cell.TileValue.HasValue);
     }
 }

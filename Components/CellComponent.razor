@@ -1,14 +1,16 @@
 ﻿<div class="col-auto cell">
     <div class="@TileClassName">
-        @TileText
+        <span>
+            @TileText
+        </span>
     </div>
 </div>
 
 @code {
-
 #nullable enable
+
     [Parameter]
-    public Cell? Cell { get; set; }
+    public IReadOnlyCell? Cell { get; set; }
 
     private string TileClassName
     {
@@ -53,7 +55,7 @@
                 return string.Empty;
 
             if (Cell.TileValue.HasValue)
-                return Cell.ToString();
+                return Cell.TileValue.ToString()!;
 
             return Cell.Animation == CellAnimation.ZoomOut ? Cell.OldTileValue.ToString()! : string.Empty;
         }

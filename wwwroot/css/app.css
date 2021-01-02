@@ -8,6 +8,29 @@
     height: 100%;
 }
 
+.btn-game {
+    background-color: hsl(30, 20%, 45%);
+    border-color: hsl(30, 20%, 45%);
+    color: white;
+    font-weight: bolder;
+}
+
+.btn-game:hover {
+    color: white;
+}
+
+.btn-game:focus {
+    box-shadow: none;
+}
+
+@media (max-width: 575px) {
+    .btn-game {
+        padding: 0.3rem 0.6rem;
+        font-weight: normal;
+        font-size: 0.7rem;
+    }
+}
+
 #blazor-error-ui {
     background: lightyellow;
     bottom: 0;
