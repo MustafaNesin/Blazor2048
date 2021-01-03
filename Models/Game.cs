@@ -44,15 +44,20 @@ namespace Blazor2048.Models
         public bool Move(Direction direction)
         {
             var moved = false;
-            var traversals = Grid.EnumerateTraversals(direction);
+            var traversals = Grid.EnumerateTraversals(direction).ToArray();
+            var oldTileValues = new int?[traversals.Length][];
             _oldScore = Score;
 
-            // ReSharper disable once LoopCanBeConvertedToQuery
-            foreach (var traversal in traversals)
-                moved |= MoveTraversal(traversal);
+            for (var i = 0; i < traversals.Length; i++)
+                moved |= MoveTraversal(traversals[i], out oldTileValues[i]);
 
             if (!moved)
+            {
+                for (var i = 0; i < traversals.Length; i++)
+                    for (var j = 0; j < traversals[i].Length; j++)
+                        traversals[i][j].OldTileValue = oldTileValues[i][j];
                 return false;
+            }
 
             AddRandomTile();
 
@@ -103,7 +108,7 @@ namespace Blazor2048.Models
             emptyCell.Animation = CellAnimation.ZoomIn;
         }
 
-        private bool MoveTraversal(IReadOnlyList<ICell> traversal)
+        private bool MoveTraversal(IReadOnlyList<ICell> traversal, out int?[] oldTileValues)
         {
             var finalValues = new int?[traversal.Count];
             var tail = -1;
@@ -132,9 +137,11 @@ namespace Blazor2048.Models
                 canMerge ^= true;
             }
 
+            oldTileValues = new int?[traversal.Count];
             for (var i = 0; i < traversal.Count; i++)
             {
                 moved |= traversal[i].TileValue != finalValues[i];
+                oldTileValues[i] = traversal[i].OldTileValue;
                 traversal[i].OldTileValue = traversal[i].TileValue;
                 traversal[i].TileValue = finalValues[i];
                 traversal[i].Animation = mergedIndices.Contains(i) ? CellAnimation.BounceIn : CellAnimation.None;
