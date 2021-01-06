@@ -1,0 +1,194 @@
+/* /Components/CellComponent.razor.rz.scp.css */
+:root[b-zarhspcztz] {
+    --animate-delay: 100ms;
+    --animate-duration: 100ms;
+}
+
+.cell[b-zarhspcztz] {
+    background-color: hsl(30, 20%, 80%);
+    height: 50px;
+    width: 50px;
+    text-align: center;
+    border-radius: 5px;
+    padding: 0;
+    margin: 5px 0 0 5px;
+}
+
+.tile[b-zarhspcztz] {
+    color: hsl(30, 20%, 98%);
+    line-height: 50px;
+    border-radius: 5px;
+    font-size: 1.6em;
+    font-weight: bold;
+}
+
+.tile.tile-2[b-zarhspcztz] {
+    background-color: hsl(40, 80%, 95%);
+    color: hsl(30, 20%, 45%);
+}
+
+.tile.tile-4[b-zarhspcztz] {
+    background-color: hsl(35, 80%, 90%);
+    color: hsl(30, 20%, 45%);
+}
+
+.tile.tile-8[b-zarhspcztz] {
+    background-color: hsl(30, 80%, 75%);
+}
+
+.tile.tile-16[b-zarhspcztz] {
+    background-color: hsl(25, 80%, 70%);
+}
+
+.tile.tile-32[b-zarhspcztz] {
+    background-color: hsl(20, 80%, 65%);
+}
+
+.tile.tile-64[b-zarhspcztz] {
+    background-color: hsl(15, 80%, 60%);
+    font-size: 1.3em;
+}
+
+.tile.tile-128[b-zarhspcztz] {
+    background-color: hsl(56, 80%, 55%);
+    font-size: 1.3em;
+}
+
+.tile.tile-256[b-zarhspcztz] {
+    background-color: hsl(53, 80%, 55%);
+    font-size: 1.3em;
+}
+
+.tile.tile-512[b-zarhspcztz] {
+    background-color: hsl(50, 80%, 55%);
+    font-size: 1.3em;
+}
+
+.tile.tile-1024[b-zarhspcztz] {
+    background-color: hsl(47, 80%, 55%);
+    font-size: 1em;
+}
+
+.tile.tile-2048[b-zarhspcztz] {
+    background-color: hsl(44, 85%, 55%);
+    font-size: 1em;
+}
+
+.tile.tile-super[b-zarhspcztz] {
+    background-color: hsl(280, 60%, 60%);
+    font-size: 0.7em;
+}
+
+@media (min-width: 576px) {
+    .cell[b-zarhspcztz] {
+        height: 100px;
+        width: 100px;
+        margin: 10px 0 0 10px;
+        font-size: 1rem;
+    }
+
+    .tile[b-zarhspcztz] {
+        line-height: 100px;
+        font-size: 2.6em;
+    }
+
+    .tile.tile-64[b-zarhspcztz],
+    .tile.tile-128[b-zarhspcztz],
+    .tile.tile-256[b-zarhspcztz],
+    .tile.tile-512[b-zarhspcztz] {
+        font-size: 2.3em;
+    }
+
+    .tile.tile-1024[b-zarhspcztz],
+    .tile.tile-2048[b-zarhspcztz] {
+        font-size: 2em;
+    }
+
+    .tile.tile-super[b-zarhspcztz] {
+        font-size: 1.7em;
+    }
+}
+/* /Components/GridComponent.razor.rz.scp.css */
+.grid[b-kxob2a00q1] {
+    background-color: hsl(30, 20%, 70%);
+    border-radius: 5px;
+}
+
+.grid>.row[b-kxob2a00q1] {
+    padding-right: 5px;
+}
+
+.grid:last-child[b-kxob2a00q1] {
+    padding-bottom: 5px;
+}
+
+.message-container[b-kxob2a00q1] {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    z-index: 100;
+    border-radius: 5px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.message-container.won[b-kxob2a00q1] {
+    color: white;
+    background-color: hsla(44, 85%, 55%, 0.7);
+}
+
+.message-container.over[b-kxob2a00q1] {
+    background-color: hsla(30, 20%, 98%, 0.7);
+}
+
+@media (min-width: 576px) {
+    .grid>.row[b-kxob2a00q1] {
+        padding-right: 10px;
+    }
+
+    .grid:last-child[b-kxob2a00q1] {
+        padding-bottom: 10px;
+    }
+}
+/* /Pages/GamePage.razor.rz.scp.css */
+.game[b-w8w16q5vid] {
+    background-color: hsl(30, 20%, 98%);
+    color: hsl(30, 20%, 45%);
+    height: 100%;
+    -moz-user-select: none; 
+    -webkit-user-select: none; 
+    -ms-user-select:none; 
+    user-select:none;
+    /*noinspection CssUnknownProperty*/
+    -o-user-select:none;
+}
+
+@media (min-width: 576px) {
+    .game[b-w8w16q5vid] {
+        font-size: 1.4rem;
+    }
+}
+
+.smaller[b-w8w16q5vid] {
+    font-size: 70%;
+    font-weight: 400;
+}
+
+.touch-screen[b-w8w16q5vid] {
+    display: none;
+}
+
+@media (hover: none) {
+    .touch-screen[b-w8w16q5vid] {
+        display: inline;
+    }
+
+    .non-touch-screen[b-w8w16q5vid] {
+        display: none;
+    }
+}
